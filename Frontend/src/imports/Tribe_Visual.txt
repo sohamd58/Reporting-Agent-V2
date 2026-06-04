@@ -1,0 +1,55 @@
+# Tribe Ecosystem: Front-End Visual Style Guide
+
+### Master Reference File for UI/UX Design Consistency
+
+This document serves as the absolute source of truth for the visual design system of the **Tribe** platform (*Attributics Reporting and Analytics Ecosystem*). Use these specifications to maintain visual harmony across all future sub-pages, modals, and platform modules.
+
+> **Core Design Philosophy:** Elegant, data-dense minimalism that feels premium and light on the eyes. The interface functions like a high-end laboratory interface—prioritizing massive white space, subtle structural separation, and highly disciplined pops of color rather than overwhelming dark canvases or heavy borders.
+
+---
+
+## 1. Color Palette
+
+The palette relies entirely on an airy, high-end white ecosystem punctuated by a singular, vibrant accent color.
+
+| Element Role | Color Description | Ideal Hex Code Range | Application |
+| --- | --- | --- | --- |
+| **Primary Canvas** | Ultra-clean, minimal warm white | `#FFFFFF` to `#FAF9F6` | Main screen backgrounds, active workspace tiles. |
+| **Structural Blocks** | Soft, muted structural gray | `#F4F5F6` to `#EFEFEF` | Sidebars, data manager panels, input backgrounds. |
+| **Primary Typography** | High-contrast soft charcoal black | `#111111` to `#222222` | Headers, primary titles, critical metrics. |
+| **Secondary Text** | Mid-tone muted slate | `#666666` to `#888888` | Labels, placeholders, captions, system subtext. |
+| **Signature Accent** | Energetic solar orange | `#FF6B35` to `#FF8C00` | Indicator dots, upload actions, key data nodes. |
+
+---
+
+## 2. Geometry, Containers, & Layout
+
+Structure is defined by soft changes in background tone and fine lines, never by heavy grids or dark outlines.
+
+* **Zone Separation:** Use a light greyish background container block (e.g., sidebars and side panels) to cleanly isolate navigation and utility actions from the main workspace canvas.
+* **The Floating Tile Metric:** Core operational hubs (like the *Reporting* and *Analytics* zones) must float over the canvas as distinct, spacious cards featuring soft, diffused drop shadows.
+* **Edges & Lines:** Components utilize crisp, clean geometry. Keep border radiuses highly constrained (**4px to 8px max**) to evoke a precise, technical system atmosphere.
+* **Grid Texture:** Main workspace backdrops can feature a faint, ultra-light gridline pattern to ground analytics elements without adding visual noise.
+
+---
+
+## 3. Micro-Interactions, Effects, & Transitions
+
+The platform should feel alive and fluid through micro-movements, responding smoothly to user intent.
+
+### Hover States (The "Lift & Reveal" Rule)
+
+* **Card Elevation:** When hovering over primary dashboard tiles (like *Reporting*), the element should smoothly lift via a subtle transition, accompanied by a slightly deepening soft shadow.
+* **Navigation & List Items:** Hovering over sidebar links or data verification rows triggers a soft background wash or reveals a tiny, sharp orange indicator point next to the text.
+
+### Motion & Transition Timings
+
+* **State Changes:** Transition sequences (such as a successful login moving to the home dashboard) must not abruptly cut. Use a smooth horizontal slide or a crisp fade-in over **200ms to 300ms** with an `ease-out` curve.
+* **Data Flows:** Interactive elements within analytics diagrams (e.g., Sankey flow connections or attribution path steps) animate gracefully on load, tracing paths with fine orange gradient accents.
+
+---
+
+## 4. Typography & Information Hierarchy
+
+* **Branding Impact:** The platform name (**Tribe.**) uses strong, bold typography paired with a clean sans-serif typeface. It is accompanied by a light-weight, highly scannable tracking subtext reading: *"Attributics Reporting and Analytics Ecosystem"*.
+* **Data Layouts:** Data tables within management panels remain strictly un-bordered. Rows rely on spacious vertical padding and delicate color states (such as soft orange for pending and light green for verified statuses) to guide the eye seamlessly.

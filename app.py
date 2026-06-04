@@ -1,0 +1,620 @@
+import streamlit as st
+import pandas as pd
+import os
+from datetime import datetime
+
+# ─── IMPORTERS & TEMPLATE STORE ─────────────────────────────────────
+from importers.clevertap_channels.clevertap_mixed import clean_clevertap_mixed, detect_channels_only
+from config.template_store import load_templates, add_template, delete_template
+
+# ─────────────────────────────────────────────────────────────────────
+#  PAGE CONFIG
+# ─────────────────────────────────────────────────────────────────────
+st.set_page_config(
+    page_title="Attributics · Analytics Reporter",
+    page_icon="📊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
+
+# ─────────────────────────────────────────────────────────────────────
+#  SESSION STATE FOR VIEW SWITCHING
+# ─────────────────────────────────────────────────────────────────────
+if "view" not in st.session_state:
+    st.session_state.view = "main"
+if "raw_df" not in st.session_state:
+    st.session_state.raw_df = None
+if "detected_channels" not in st.session_state:
+    st.session_state.detected_channels = []
+if "selected_channels" not in st.session_state:
+    st.session_state.selected_channels = []
+if "cleaned_df" not in st.session_state:
+    st.session_state.cleaned_df = None
+if "editor_columns" not in st.session_state:
+    st.session_state.editor_columns = []
+
+# ─────────────────────────────────────────────────────────────────────
+#  CSS (same as before – your beautiful light theme)
+#  CHANGE: only #MainMenu and footer are hidden, header is fully visible now
+# ─────────────────────────────────────────────────────────────────────
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+/* ── Reset & base ─────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, [class*="css"], .stApp {
+    font-family: 'DM Sans', sans-serif !important;
+    background-color: #F7F6F3 !important;
+    color: #1C1C1E !important;
+}
+#MainMenu, footer { visibility: hidden; }
+/* header is now fully visible so the sidebar toggle (hamburger) appears */
+.block-container {
+    padding: 2.2rem 2.8rem 4rem !important;
+    max-width: 1080px !important;
+}
+[data-testid="stSidebar"] {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid #E3E1DC !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+}
+[data-testid="stSidebar"] > div { background-color: #FFFFFF !important; }
+[data-testid="stSidebar"] section { background-color: #FFFFFF !important; }
+[data-testid="stSidebar"] * {
+    font-family: 'DM Sans', sans-serif !important;
+    color: #1C1C1E !important;
+    background-color: transparent !important;
+}
+[data-testid="stSidebar"] hr {
+    border: none !important;
+    border-top: 1px solid #E3E1DC !important;
+    margin: 1rem 0 !important;
+}
+[data-testid="stSidebar"] .stCaption p {
+    color: #6B6860 !important;
+    font-size: 0.71rem !important;
+    letter-spacing: 0.02em;
+}
+[data-testid="stSidebar"] label {
+    color: #6B6860 !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] > div {
+    background-color: #F7F6F3 !important;
+    border: 1px solid #E3E1DC !important;
+    border-radius: 8px !important;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] span,
+[data-testid="stSidebar"] [data-baseweb="select"] div {
+    color: #1C1C1E !important;
+    background-color: transparent !important;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #6B6860 !important; }
+.main .block-container { background-color: #F7F6F3 !important; }
+h1, h2, h3, h4 {
+    font-family: 'DM Sans', sans-serif !important;
+    color: #1C1C1E !important;
+}
+[data-testid="stFileUploadDropzone"] {
+    background-color: #FFFFFF !important;
+    border: 1.5px dashed #D0CEC9 !important;
+    border-radius: 10px !important;
+    transition: border-color 0.2s;
+}
+[data-testid="stFileUploadDropzone"]:hover {
+    border-color: #C94A1E !important;
+}
+[data-testid="stFileUploadDropzone"] * { color: #6B6860 !important; }
+.stButton > button {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+    font-weight: 500 !important;
+    background-color: #C94A1E !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1.3rem !important;
+    letter-spacing: 0.01em;
+    box-shadow: 0 1px 4px rgba(201, 74, 30, 0.22) !important;
+    transition: background 0.16s, transform 0.1s;
+}
+.stButton > button:hover {
+    background-color: #9B2C14 !important;
+    transform: translateY(-1px);
+}
+.stButton > button:active { transform: translateY(0); }
+[data-testid="stDownloadButton"] > button {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+    font-weight: 500 !important;
+    background-color: #1C1C1E !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.5rem 1.3rem !important;
+}
+[data-testid="stDownloadButton"] > button:hover {
+    background-color: #333333 !important;
+}
+[data-testid="stAlert"] {
+    border-radius: 10px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #E3E1DC !important;
+    color: #1C1C1E !important;
+}
+[data-testid="stAlert"] p { color: #1C1C1E !important; }
+div[data-baseweb="notification"] {
+    border-radius: 10px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+}
+[data-testid="stExpander"] {
+    border: 1px solid #E3E1DC !important;
+    border-radius: 10px !important;
+    background-color: #FFFFFF !important;
+    box-shadow: none !important;
+}
+[data-testid="stExpander"] > details { background-color: #FFFFFF !important; }
+[data-testid="stExpander"] summary {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    color: #1C1C1E !important;
+    background-color: #FFFFFF !important;
+    padding: 0.7rem 1rem !important;
+}
+[data-testid="stExpander"] summary:hover { background-color: #F7F6F3 !important; }
+[data-testid="stExpander"] summary span { color: #1C1C1E !important; }
+[data-testid="stExpander"] summary svg { fill: #6B6860 !important; }
+[data-testid="stExpander"] > details > div {
+    background-color: #FFFFFF !important;
+    padding: 0.5rem 1rem 1rem !important;
+}
+[data-testid="stDataFrame"] {
+    border: 1px solid #E3E1DC !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    background-color: #FFFFFF !important;
+}
+[data-testid="stDataFrame"] * { font-family: 'DM Mono', monospace !important; font-size: 0.78rem !important; }
+[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E3E1DC !important;
+    border-radius: 8px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+    color: #1C1C1E !important;
+}
+[data-baseweb="select"] span { color: #1C1C1E !important; }
+[data-testid="stSpinner"] p {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.84rem !important;
+    color: #6B6860 !important;
+}
+/* Checkbox styling for readability */
+[data-testid="stCheckbox"] label {
+    color: #1C1C1E !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+[data-testid="stCheckbox"] {
+    display: flex !important;
+    align-items: center !important;
+    background-color: #F7F6F3 !important;
+    padding: 10px 12px !important;
+    border-radius: 8px !important;
+    border: 1px solid #E3E1DC !important;
+    margin-bottom: 8px !important;
+}
+[data-testid="stCheckbox"] input[type="checkbox"] {
+    accent-color: #C94A1E !important;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer !important;
+}
+[data-testid="stCheckbox"] label span {
+    color: #1C1C1E !important;
+    font-weight: 500 !important;
+}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D0CEC9; border-radius: 4px; }
+</style>
+""", unsafe_allow_html=True)
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  SIDEBAR (common for both views)
+# ─────────────────────────────────────────────────────────────────────
+with st.sidebar:
+    st.markdown("""
+    <div style="display:flex;align-items:center;gap:10px;padding:1.2rem 0 0.8rem;">
+        <div style="width:30px;height:30px;border-radius:6px;
+                    background:linear-gradient(135deg,#9B2C14 0%,#E8742A 100%);
+                    transform:rotate(8deg);flex-shrink:0;"></div>
+        <div>
+            <div style="font-size:0.78rem;font-weight:600;letter-spacing:0.15em;
+                        color:#1C1C1E;text-transform:uppercase;
+                        font-family:'DM Sans',sans-serif;">Attributics</div>
+            <div style="font-size:0.62rem;letter-spacing:0.06em;color:#6B6860;
+                        text-transform:uppercase;margin-top:1px;
+                        font-family:'DM Sans',sans-serif;">Analytics Reporter</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown("<hr/>", unsafe_allow_html=True)
+
+    # Button to switch to Template Editor
+    if st.button("📝 Report Template", use_container_width=True):
+        st.session_state.view = "template_editor"
+        st.rerun()
+
+    if st.session_state.view != "main":
+        if st.button("🏠 Back to Main", use_container_width=True):
+            st.session_state.view = "main"
+            st.rerun()
+
+    st.markdown("<hr/>", unsafe_allow_html=True)
+    st.caption("v2.0 · Fully offline")
+    st.caption("No data leaves your server.")
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  HELPER FUNCTION: SORT CLEANED DATA
+# ─────────────────────────────────────────────────────────────────────
+def sort_cleaned_data(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Sorts cleaned data:
+    1. By Channel (if exists) - to group all data from same channel together
+    2. By Date and Time (in ascending order) within each channel/group
+    Also formats all percentage columns to display as percentages.
+    Returns sorted DataFrame with index reset.
+    """
+    df = df.copy()
+    
+    # Check if Date and Time columns exist
+    has_date = "Date" in df.columns
+    has_time = "Time" in df.columns
+    has_channel = "Channel" in df.columns
+    
+    if has_date and has_time:
+        # Create combined datetime for sorting
+        df["_datetime_sort"] = pd.to_datetime(
+            df["Date"].astype(str) + " " + df["Time"].astype(str),
+            errors="coerce"
+        )
+    
+    # Build sort columns list
+    sort_columns = []
+    if has_channel:
+        sort_columns.append("Channel")
+    if has_date and has_time:
+        sort_columns.append("_datetime_sort")
+    elif has_date:
+        sort_columns.append("Date")
+    
+    # Apply sorting if we have columns to sort by
+    if sort_columns:
+        df = df.sort_values(by=sort_columns, ascending=True).reset_index(drop=True)
+    
+    # Drop temporary sort column
+    if "_datetime_sort" in df.columns:
+        df.drop(columns=["_datetime_sort"], inplace=True)
+    
+    # Format all percentage columns to display as "XX.XX%"
+    percentage_cols = [
+        "Delivery %", "Delivered %", "Impression %", "Viewed %", "View Rate %",
+        "Clicked%", "Click Rate %", "Unique Clicked%", "Conversion Rate %",
+        "Click Through Conversion %", "Influenced Conversion %",
+        "Total Open%", "Unique Open %", "Total Clicked%", "Unique Clicked%",
+        "CTR %", "CTOR %", "Unsubscribed %", "Error %", "CTR", "Read Rate %"
+    ]
+    
+    for col in percentage_cols:
+        if col in df.columns:
+            # Check if column is already a string (formatted)
+            if df[col].dtype == 'object':
+                # Already formatted, skip
+                continue
+            else:
+                # Convert numeric to percentage string
+                df[col] = df[col].apply(lambda x: f"{x:.2f}%" if pd.notna(x) else "")
+    
+    return df
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  VIEWS
+# ─────────────────────────────────────────────────────────────────────
+
+def main_view():
+    """Simplified upload/detect channels/clean/download interface."""
+    st.markdown("""
+    <h1 style="font-family:'DM Sans',sans-serif;font-size:1.6rem;font-weight:600;
+               color:#1C1C1E;margin:0 0 0.3rem;padding:0;">Analytics Reporter</h1>
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.87rem;color:#6B6860;
+              margin:0 0 2rem;">
+        Upload a marketing platform CSV, select channels to clean, and download cleaned data.
+    </p>
+    """, unsafe_allow_html=True)
+
+    # Section 1: Upload & Platform Selection
+    st.markdown("""
+    <div style="display:flex;align-items:center;gap:10px;margin:0 0 1.1rem;">
+        <span style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6B6860;">01</span>
+        <span style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#1C1C1E;">Upload & Detect</span>
+        <div style="flex:1;height:1px;background:#E3E1DC;"></div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    uploaded_file = st.file_uploader("Drop a CSV file here or click to browse", type=["csv"], label_visibility="collapsed")
+    platform = st.selectbox("Platform", options=["CleverTap", "MoEngage"], key="main_platform", help="Which platform is this data from?")
+
+    if uploaded_file is not None:
+        try:
+            raw_df = pd.read_csv(uploaded_file)
+            st.session_state.raw_df = raw_df
+            n_rows, n_cols = raw_df.shape
+            
+            st.markdown(f"""
+            <div style="display:grid;grid-template-columns:1fr 1fr 2fr;gap:10px;margin:1rem 0;">
+                <div style="background:#FFFFFF;border:1px solid #E3E1DC;border-radius:10px;padding:12px 14px;">
+                    <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B6860;">Rows</div>
+                    <div style="font-family:'DM Mono',monospace;font-size:1.35rem;font-weight:500;">{n_rows:,}</div>
+                </div>
+                <div style="background:#FFFFFF;border:1px solid #E3E1DC;border-radius:10px;padding:12px 14px;">
+                    <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B6860;">Columns</div>
+                    <div style="font-family:'DM Mono',monospace;font-size:1.35rem;font-weight:500;">{n_cols}</div>
+                </div>
+                <div style="background:#FFFFFF;border:1px solid #E3E1DC;border-radius:10px;padding:12px 14px;">
+                    <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:#6B6860;">File</div>
+                    <div style="font-family:'DM Mono',monospace;font-size:0.8rem;margin-top:2px;">{uploaded_file.name}</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            with st.expander("Raw data preview · first 5 rows"):
+                st.dataframe(raw_df.head(), use_container_width=True, hide_index=True)
+
+            # Auto-detect channels
+            if platform == "CleverTap":
+                detected = detect_channels_only(raw_df)
+                st.session_state.detected_channels = detected
+                st.success(f"Detected {len(detected)} channel(s): {', '.join(detected)}")
+            else:
+                st.info(f"Platform '{platform}' detected. Channel selection coming soon.")
+                st.session_state.detected_channels = []
+                return
+
+        except Exception as e:
+            st.error(f"Error reading file: {e}")
+            return
+
+    # Section 2: Channel Selection
+    if st.session_state.detected_channels:
+        st.markdown("""
+        <div style="height:1px;background:#E3E1DC;margin:1.8rem 0 1.5rem;"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin:0 0 1.1rem;">
+            <span style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6B6860;">02</span>
+            <span style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#1C1C1E;">Select Channels</span>
+            <div style="flex:1;height:1px;background:#E3E1DC;"></div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("**Choose which channels to clean:**")
+        
+        # Create custom styled channel selector
+        channel_selections = {}
+        cols = st.columns(min(2, len(st.session_state.detected_channels)))
+        for idx, channel in enumerate(st.session_state.detected_channels):
+            with cols[idx % len(cols)]:
+                channel_selections[channel] = st.checkbox(
+                    channel,
+                    value=True,
+                    key=f"channel_{channel}",
+                    label_visibility="visible"
+                )
+        
+        selected_channels = [ch for ch, selected in channel_selections.items() if selected]
+        
+        st.session_state.selected_channels = selected_channels
+        
+        # Section 3: Clean & Download
+        st.markdown("""
+        <div style="height:1px;background:#E3E1DC;margin:1.8rem 0 1.5rem;"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin:0 0 1.1rem;">
+            <span style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#6B6860;">03</span>
+            <span style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#1C1C1E;">Clean & Export</span>
+            <div style="flex:1;height:1px;background:#E3E1DC;"></div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        if st.button("Clean Selected Channels", use_container_width=True):
+            if not selected_channels:
+                st.error("Please select at least one channel.")
+            else:
+                with st.spinner(f"Cleaning {len(selected_channels)} channel(s)..."):
+                    try:
+                        cleaned = clean_clevertap_mixed(st.session_state.raw_df, selected_channels=selected_channels)
+                        # Apply sorting: by Channel (if exists), then by Date & Time
+                        cleaned = sort_cleaned_data(cleaned)
+                        st.session_state.cleaned_df = cleaned
+                        st.success(f"✓ Cleaned {len(selected_channels)} channel(s) successfully.")
+                    except Exception as e:
+                        st.error(f"Error during cleaning: {e}")
+        
+        # Display cleaned data and download options
+        if st.session_state.cleaned_df is not None:
+            st.markdown("""<div style="margin-top:1.5rem;"></div>""", unsafe_allow_html=True)
+            st.markdown("**Cleaned Data Preview:**")
+            st.dataframe(st.session_state.cleaned_df.head(10), use_container_width=True, hide_index=True)
+            
+            with st.expander("Column info"):
+                col_info = pd.DataFrame({
+                    "Column": st.session_state.cleaned_df.columns,
+                    "Type": st.session_state.cleaned_df.dtypes.astype(str),
+                    "Non-null": st.session_state.cleaned_df.count().values
+                })
+                st.dataframe(col_info, use_container_width=True, hide_index=True)
+            
+            # Download options
+            col1, col2 = st.columns(2)
+            with col1:
+                csv_data = st.session_state.cleaned_df.to_csv(index=False)
+                st.download_button(
+                    label="📥 Download as CSV",
+                    data=csv_data,
+                    file_name=f"cleaned_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
+            with col2:
+                from io import BytesIO
+                excel_buffer = BytesIO()
+                st.session_state.cleaned_df.to_excel(excel_buffer, index=False, engine="openpyxl")
+                excel_buffer.seek(0)
+                st.download_button(
+                    label="📥 Download as Excel",
+                    data=excel_buffer,
+                    file_name=f"cleaned_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    use_container_width=True
+                )
+
+    # Footer
+    st.markdown("""
+    <div style="margin-top:3rem;padding-top:1rem;border-top:1px solid #E3E1DC;display:flex;justify-content:space-between;">
+        <span style="font-size:0.72rem;color:#6B6860;">Attributics Analytics Reporter · v2.0</span>
+        <span style="font-size:0.72rem;color:#6B6860;">All processing offline. No data leaves your server.</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+def template_editor_view():
+    """Dedicated UI for building report templates."""
+    st.markdown("""
+    <h1 style="font-family:'DM Sans',sans-serif;font-size:1.6rem;font-weight:600;margin-bottom:0.5rem;">Report Template Builder</h1>
+    <p style="font-family:'DM Sans',sans-serif;font-size:0.87rem;color:#6B6860;margin-bottom:2rem;">
+        Define output columns: choose direct mapping from cleaned data or calculations.<br>
+        <strong>Note:</strong> Formulas containing <code>/</code> (division) will automatically be shown as percentages.
+    </p>
+    """, unsafe_allow_html=True)
+
+    if st.session_state.cleaned_df is not None:
+        available_cols = list(st.session_state.cleaned_df.columns)
+        st.info(f"Available input columns from current cleaned data: {', '.join(available_cols[:10])}" + (" ..." if len(available_cols) > 10 else ""))
+    else:
+        available_cols = []
+        st.warning("No cleaned data loaded. Please go back to Main view, upload and clean a CSV first to see column names.")
+
+    with st.form(key="add_col_form"):
+        col1, col2, col3, col4, col5 = st.columns([2, 1, 2, 2, 1])
+        with col1:
+            output_name = st.text_input("Output column name", key="new_out")
+        with col2:
+            include = st.checkbox("Include", value=True, key="new_inc")
+        with col3:
+            source_type = st.selectbox("Source", ["direct", "calculated"], key="new_src")
+        with col4:
+            if source_type == "direct":
+                if available_cols:
+                    source_value = st.selectbox("Input column", available_cols, key="new_val_map")
+                else:
+                    source_value = st.text_input("Column name (exact)", key="new_val_map_text")
+            else:
+                source_value = st.text_input("Formula (e.g., `Total Clicked(users) / Total Delivered(users)`)", key="new_val_calc")
+        with col5:
+            add = st.form_submit_button("➕ Add")
+
+        if add and output_name:
+            new_col = {
+                "name": output_name,
+                "include": include,
+                "source": source_type,
+                "column" if source_type == "direct" else "formula": source_value
+            }
+            st.session_state.editor_columns.append(new_col)
+            st.success(f"Added column '{output_name}'")
+            st.rerun()
+
+    if st.session_state.editor_columns:
+        st.markdown("### Current Template Columns")
+        for i, col_def in enumerate(st.session_state.editor_columns):
+            with st.container():
+                cols = st.columns([2, 1, 2, 2, 1])
+                with cols[0]:
+                    st.text_input("Output name", value=col_def["name"], key=f"name_{i}")
+                with cols[1]:
+                    new_include = st.checkbox("Include", value=col_def["include"], key=f"inc_{i}")
+                with cols[2]:
+                    new_src = st.selectbox("Source", ["direct", "calculated"], index=0 if col_def["source"]=="direct" else 1, key=f"src_{i}")
+                with cols[3]:
+                    if new_src == "direct":
+                        if available_cols:
+                            old_val = col_def.get("column", "")
+                            idx = available_cols.index(old_val) if old_val in available_cols else 0
+                            new_val = st.selectbox("Input column", available_cols, index=idx, key=f"val_{i}")
+                        else:
+                            new_val = st.text_input("Column name", value=col_def.get("column", ""), key=f"val_{i}")
+                    else:
+                        new_val = st.text_input("Formula", value=col_def.get("formula", ""), key=f"val_{i}")
+                with cols[4]:
+                    if st.button("❌", key=f"del_{i}"):
+                        st.session_state.editor_columns.pop(i)
+                        st.rerun()
+                st.session_state.editor_columns[i] = {
+                    "name": st.session_state[f"name_{i}"],
+                    "include": st.session_state[f"inc_{i}"],
+                    "source": st.session_state[f"src_{i}"],
+                    ("column" if st.session_state[f"src_{i}"]=="direct" else "formula"): st.session_state[f"val_{i}"]
+                }
+
+    st.markdown("---")
+    save_type = st.radio("Save as", ["Ad‑hoc (use once, not saved)", "Saved Template"], horizontal=True)
+    template_name = ""
+    if save_type == "Saved Template":
+        template_name = st.text_input("Template name")
+
+    if st.button("Use / Save Template", use_container_width=True):
+        if not st.session_state.editor_columns:
+            st.error("No columns defined. Add at least one output column.")
+        else:
+            template_cols = []
+            for col in st.session_state.editor_columns:
+                if col["include"]:
+                    template_cols.append({
+                        "name": col["name"],
+                        "source": col["source"],
+                        ("column" if col["source"]=="direct" else "formula"): col.get("column") if col["source"]=="direct" else col.get("formula")
+                    })
+            if not template_cols:
+                st.error("No included columns. Please include at least one column.")
+            else:
+                if save_type == "Saved Template" and template_name:
+                    add_template(template_name, template_cols)
+                    st.success(f"Template '{template_name}' saved successfully!")
+                    st.balloons()
+                elif save_type == "Ad‑hoc (use once, not saved)":
+                    st.session_state.ad_hoc_template = {"columns": template_cols}
+                    st.success("Ad‑hoc template ready. Go to Main view and generate a report.")
+                else:
+                    st.error("Please enter a template name for saved templates.")
+
+    st.caption("After saving, go back to Main view and select your template from the dropdown.")
+
+
+# ─────────────────────────────────────────────────────────────────────
+#  RENDER CURRENT VIEW
+# ─────────────────────────────────────────────────────────────────────
+if st.session_state.view == "main":
+    main_view()
+else:
+    template_editor_view()

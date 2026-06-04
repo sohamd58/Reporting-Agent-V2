@@ -1,0 +1,543 @@
+{
+  "CleverTap Email - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Opens",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
+      }
+    ]
+  },
+  "CleverTap Push - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Impressions",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "CleverTap SMS - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Delivery Rate (%)",
+        "source": "calculated",
+        "formula": "Total Delivered(users) / Total Sent(users) * 100"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
+      }
+    ]
+  },
+  "CleverTap RCS - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "View Rate (%)",
+        "source": "calculated",
+        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "CleverTap WhatsApp - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Read",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Read Rate (%)",
+        "source": "calculated",
+        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "CleverTap In-app - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "View Rate (%)",
+        "source": "calculated",
+        "formula": "Total Viewed(users) / Total Sent(users) * 100"
+      },
+      {
+        "name": "Click Rate (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "CleverTap Web Pop-up - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Conversion Rate (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "CleverTap Native Display - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Impressions",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "MoEngage Email - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Opens",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
+      }
+    ]
+  },
+  "MoEngage Push - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Impressions",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "MoEngage SMS - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Delivery Rate (%)",
+        "source": "calculated",
+        "formula": "Total Delivered(users) / Total Sent(users) * 100"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
+      }
+    ]
+  },
+  "MoEngage RCS - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "View Rate (%)",
+        "source": "calculated",
+        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "MoEngage WhatsApp - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Read",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Read Rate (%)",
+        "source": "calculated",
+        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  },
+  "MoEngage OSM - Weekly Summary": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Impressions",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
+      }
+    ]
+  }
+}
