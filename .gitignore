@@ -2,3 +2,8 @@ Levis_20Aprto26Apr_RawData - Levis_20Aprto26Apr_RawData.csv
 report_20260527_155826.xlsx
 report_20260528_120108.xlsx
 data/
+Backend/data/
+Frontend/node_modules/
+Frontend/dist/
+__pycache__/
+*.pyc

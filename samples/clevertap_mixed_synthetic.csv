@@ -1,0 +1,9 @@
+Campaign Name,Channel,Run Date,Start Time,Total Sent(users),Total Delivered(users),Total Viewed(events),Total Viewed(users),Total Clicked(events),Total Clicked(users),Errors,Total Unsubscribes,Click through conversions,Click through conversion revenue,Influenced Conversions,Influenced Revenue,estimated reach,Labels,Who query,Title,Headline,Body,Message
+Email_June_Welcome_001,Email,01/06/2026,09:15,10000,9600,4300,3100,820,640,95,22,85,125000,140,210000,12000,Welcome Series,city = Mumbai,"{""Subject"":""Welcome offer for June"",""Preheader"":""Your personalized offer is ready""}",,,
+Email_June_Reminder_002,Email,02/06/2026,10:45,8500,8160,3600,2400,610,455,72,18,61,84000,102,155000,9500,Reminder,segment = active_30d,"{""Subject"":""Do not miss your benefit"",""Preheader"":""Limited period reminder""}",,,
+Push_June_AppSale_001,Push Notification,01/06/2026,12:30,15000,0,9200,9200,0,780,110,0,95,67000,210,98000,18000,App Sale,app_version >= 8.0,,June app sale,Tap to unlock your app-only deal,
+Push_June_Cashback_002,Push Notification,03/06/2026,18:00,17500,0,11000,11000,0,980,130,0,122,92000,260,126000,21000,Cashback,user_type = repeat,,Cashback unlocked,Claim your cashback today,
+SMS_June_Offer_001,Sms,02/06/2026,11:10,12000,11450,0,0,0,410,140,0,48,32000,95,52000,13500,SMS Offer,opt_in = true,,,,Use code JUNE10 for your offer
+SMS_June_DueDate_002,Sms,04/06/2026,16:20,9000,8700,0,0,0,295,90,0,32,21000,71,39000,9800,Due Date,customer_status = due,,,,Reminder: complete your action today
+WA_June_Welcome_001,WhatsApp,01/06/2026,14:05,7000,6825,0,4900,0,520,35,0,68,76000,115,94000,8000,WhatsApp Welcome,wa_opt_in = true,,,,Welcome to your June benefits
+WA_June_Update_002,WhatsApp,05/06/2026,09:40,6400,6210,0,4320,0,390,28,0,51,59000,89,74000,7300,WhatsApp Update,wa_opt_in = true,,,,Important update for your account

@@ -1,6 +1,14 @@
+type PreviewPayload = {
+  columns: string[];
+  rows: Record<string, unknown>[];
+  row_count: number;
+  column_count: number;
+};
+
 export type UploadResponse = {
   file_id: string;
   filename: string;
+  preview?: PreviewPayload;
   columns: string[];
   rows: Record<string, unknown>[];
   row_count: number;
@@ -9,12 +17,8 @@ export type UploadResponse = {
 
 export type CleanResponse = {
   file_id: string;
-  preview: {
-    columns: string[];
-    rows: Record<string, unknown>[];
-    row_count: number;
-    column_count: number;
-  };
+  template_name: string;
+  preview: PreviewPayload;
   column_types: Record<string, string>;
 };
 
@@ -23,10 +27,20 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? "/api";
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`, options);
   if (!response.ok) {
-    const message = await response.text();
+    const message = await readErrorMessage(response);
     throw new Error(message || `Request failed with status ${response.status}`);
   }
   return response.json() as Promise<T>;
+}
+
+async function readErrorMessage(response: Response) {
+  const message = await response.text();
+  try {
+    const parsed = JSON.parse(message);
+    return parsed.detail || message;
+  } catch {
+    return message;
+  }
 }
 
 export async function uploadFile(file: File): Promise<UploadResponse> {
@@ -37,21 +51,26 @@ export async function uploadFile(file: File): Promise<UploadResponse> {
     body: formData,
   });
   if (!response.ok) {
-    const message = await response.text();
+    const message = await readErrorMessage(response);
     throw new Error(message || "Upload failed");
   }
   return response.json() as Promise<UploadResponse>;
 }
 
 export async function detectChannels(fileId: string, platform: string) {
-  return request<{ channels: string[] }>("/detect-channels", {
+  return request<{ channels: string[]; ignored_channels?: string[] }>("/detect-channels", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ file_id: fileId, platform }),
   });
 }
 
-export async function cleanData(fileId: string, platform: string, selectedChannels: string[]) {
+export async function cleanData(
+  fileId: string,
+  platform: string,
+  selectedChannels: string[],
+  templateName: string,
+) {
   return request<CleanResponse>("/clean", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -59,6 +78,7 @@ export async function cleanData(fileId: string, platform: string, selectedChanne
       file_id: fileId,
       platform,
       selected_channels: selectedChannels,
+      template_name: templateName,
     }),
   });
 }
@@ -87,7 +107,7 @@ export async function downloadReport(fileId: string, templateName: string, forma
     }),
   });
   if (!response.ok) {
-    const message = await response.text();
+    const message = await readErrorMessage(response);
     throw new Error(message || "Download failed");
   }
   const blob = await response.blob();

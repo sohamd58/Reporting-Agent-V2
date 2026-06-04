@@ -106,6 +106,17 @@ def get_default_templates():
             ]
         },
         # Mixed (All Channels)
+        "CleverTap Reporting Agent - Default": {
+            "columns": [
+                {"name": "Campaign Name", "source": "direct", "column": "Campaign Name"},
+                {"name": "Date", "source": "direct", "column": "Date"},
+                {"name": "Title", "source": "direct", "column": "Title"},
+                {"name": "Message", "source": "direct", "column": "Message"},
+                {"name": "Clicks", "source": "direct", "column": "Clicks"},
+                {"name": "Delivered", "source": "direct", "column": "Delivered"},
+                {"name": "CTR (%)", "source": "direct", "column": "CTR (%)"}
+            ]
+        },
         "CleverTap Mixed - Default": {
             "columns": [
                 {"name": "Campaign Name", "source": "direct", "column": "Campaign Name"},
@@ -215,14 +226,21 @@ def get_default_templates():
 
 def load_templates():
     """Load saved report templates from JSON file. If file doesn't exist, create with defaults."""
+    defaults = get_default_templates()
     if not os.path.exists(TEMPLATES_FILE):
         os.makedirs(os.path.dirname(TEMPLATES_FILE), exist_ok=True)
-        defaults = get_default_templates()
         with open(TEMPLATES_FILE, "w") as f:
             json.dump(defaults, f, indent=2)
         return defaults
     with open(TEMPLATES_FILE, "r") as f:
-        return json.load(f)
+        templates = json.load(f)
+
+    missing_defaults = {name: template for name, template in defaults.items() if name not in templates}
+    if missing_defaults:
+        templates.update(missing_defaults)
+        save_templates(templates)
+
+    return templates
 
 def save_templates(templates):
     """Save report templates to JSON file."""
