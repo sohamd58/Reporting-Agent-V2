@@ -1,4 +1,48 @@
+# Local data exports and reports
 Levis_20Aprto26Apr_RawData - Levis_20Aprto26Apr_RawData.csv
 report_20260527_155826.xlsx
 report_20260528_120108.xlsx
+
+# Project data directories
 data/
+Backend/data/
+
+# Node / Vite / Frontend
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.vite/
+Frontend/.turbo/
+Frontend/.parcel-cache/
+Frontend/.env
+Frontend/.env.*
+Frontend/build/
+Frontend/.cache/
+
+# Python
+__pycache__/
+*.pyc
+env/
+venv/
+venv.bak/
+.env
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-debug.log-*
+
+# Test / coverage
+coverage/
+reports/
+
+# Generated files
+dist/
+build/

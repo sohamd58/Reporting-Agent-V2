@@ -539,5 +539,152 @@
         "formula": "Total Clicked(users) / Total Viewed(users) * 100"
       }
     ]
+  },
+  "CleverTap Mixed - Default": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicked",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Conversions",
+        "source": "direct",
+        "column": "Conversions"
+      },
+      {
+        "name": "Revenue",
+        "source": "direct",
+        "column": "Revenue"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
+      }
+    ]
+  },
+  "MoEngage Mixed - Default": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Run Date",
+        "source": "direct",
+        "column": "Run Date"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent(users)"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered(users)"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed(users)"
+      },
+      {
+        "name": "Total Clicked",
+        "source": "direct",
+        "column": "Total Clicked(users)"
+      },
+      {
+        "name": "Conversions",
+        "source": "direct",
+        "column": "Conversions"
+      },
+      {
+        "name": "Revenue",
+        "source": "direct",
+        "column": "Revenue"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "calculated",
+        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
+      }
+    ]
+  },
+  "CleverTap Reporting Agent - Default": {
+    "columns": [
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Title",
+        "source": "direct",
+        "column": "Title"
+      },
+      {
+        "name": "Message",
+        "source": "direct",
+        "column": "Message"
+      },
+      {
+        "name": "Clicks",
+        "source": "direct",
+        "column": "Clicks"
+      },
+      {
+        "name": "Delivered",
+        "source": "direct",
+        "column": "Delivered"
+      },
+      {
+        "name": "CTR (%)",
+        "source": "direct",
+        "column": "CTR (%)"
+      }
+    ]
   }
 }

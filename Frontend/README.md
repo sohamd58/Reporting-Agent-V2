@@ -1,11 +1,25 @@
 
-  # Monday Report Builder Dashboard
+# Frontend
 
-  This is a code bundle for Monday Report Builder Dashboard. The original project is available at https://www.figma.com/design/Mgj9JPcdYWR76GTtK1Yl3p/Monday-Report-Builder-Dashboard.
+React/Vite frontend for the reporting agent.
 
-  ## Running the code
+## Responsibilities
 
-  Run `npm i` to install the dependencies.
+- Upload CSV files through the backend API
+- Display raw and cleaned data previews
+- Select platform, channels, and templates
+- Trigger CSV/XLSX report downloads
+- Provide the template designer UI
 
-  Run `npm run dev` to start the development server.
-  
+## Run
+
+From this folder:
+
+```powershell
+npm install
+npm run dev
+```
+
+The frontend runs at `http://localhost:5173`.
+
+API calls use `/api` by default and are proxied to `http://localhost:8000` in `vite.config.ts`.
