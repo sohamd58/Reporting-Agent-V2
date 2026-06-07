@@ -4,7 +4,14 @@ import os
 from datetime import datetime
 
 # ─── IMPORTERS & TEMPLATE STORE ─────────────────────────────────────
-from importers.clevertap_channels.clevertap_mixed import clean_clevertap_mixed, detect_channels_only
+from importers.clevertap_channels.clevertap_mixed import (
+    clean_clevertap_mixed,
+    detect_channels_only as detect_clevertap_channels_only,
+)
+from importers.moengage_channels.moengage_mixed import (
+    clean_moengage_mixed,
+    detect_channels_only as detect_moengage_channels_only,
+)
 from config.template_store import load_templates, add_template, delete_template
 
 # ─────────────────────────────────────────────────────────────────────
@@ -386,13 +393,13 @@ def main_view():
 
             # Auto-detect channels
             if platform == "CleverTap":
-                detected = detect_channels_only(raw_df)
-                st.session_state.detected_channels = detected
-                st.success(f"Detected {len(detected)} channel(s): {', '.join(detected)}")
+                detected = detect_clevertap_channels_only(raw_df)
+            elif platform == "MoEngage":
+                detected = detect_moengage_channels_only(raw_df)
             else:
-                st.info(f"Platform '{platform}' detected. Channel selection coming soon.")
-                st.session_state.detected_channels = []
-                return
+                detected = []
+            st.session_state.detected_channels = detected
+            st.success(f"Detected {len(detected)} channel(s): {', '.join(detected)}")
 
         except Exception as e:
             st.error(f"Error reading file: {e}")
@@ -443,7 +450,16 @@ def main_view():
             else:
                 with st.spinner(f"Cleaning {len(selected_channels)} channel(s)..."):
                     try:
-                        cleaned = clean_clevertap_mixed(st.session_state.raw_df, selected_channels=selected_channels)
+                        if platform == "CleverTap":
+                            cleaned = clean_clevertap_mixed(
+                                st.session_state.raw_df,
+                                selected_channels=selected_channels,
+                            )
+                        else:
+                            cleaned = clean_moengage_mixed(
+                                st.session_state.raw_df,
+                                selected_channels=selected_channels,
+                            )
                         # Apply sorting: by Channel (if exists), then by Date & Time
                         cleaned = sort_cleaned_data(cleaned)
                         st.session_state.cleaned_df = cleaned

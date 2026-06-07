@@ -3,21 +3,21 @@ import pandas as pd
 from .utils import add_common_dimensions, add_if_missing, clean_number, first_existing, safe_rate
 
 
-WHATSAPP_COLUMNS = [
+RCS_COLUMNS = [
     "Date", "Time", "Week", "Month", "Campaign Name", "Label", "Segment",
     "Estimated Reach", "Total Sent", "Total Delivered", "Delivery %",
-    "Total Viewed", "Viewed %", "Clicked", "Clicked%", "CTR",
+    "Viewed", "Viewed %", "Clicked", "Clicked%", "CTR",
     "Click Through Conversion", "Click Through Conversion %", "Click through Revenue",
     "Influenced Conversion", "Influenced Conversion %", "Influenced Revenue",
-    "Cost", "ROAS", "Message",
+    "Cost", "ROAS",
 ]
 
 
-def clean_clevertap_whatsapp(df: pd.DataFrame) -> pd.DataFrame:
+def clean_clevertap_rcs(df: pd.DataFrame) -> pd.DataFrame:
     df = add_common_dimensions(df.copy())
     sent = clean_number(first_existing(df, "Total Sent(users)", "Total Sent"))
     delivered = clean_number(first_existing(df, "Total Delivered(users)", "Total Delivered", "Delivered"))
-    viewed = clean_number(first_existing(df, "Total Viewed(users)", "Total Viewed", "Viewed"))
+    viewed = clean_number(first_existing(df, "Total Viewed(users)", "Viewed", "Total Viewed"))
     clicks = clean_number(first_existing(df, "Total Clicked(users)", "Clicked", "Total Clicks"))
     conversions = clean_number(first_existing(df, "Click through conversions", "Click Through Conversion"))
     influenced = clean_number(first_existing(df, "Influenced Conversions", "Influenced Conversion"))
@@ -27,7 +27,7 @@ def clean_clevertap_whatsapp(df: pd.DataFrame) -> pd.DataFrame:
     df["Total Sent"] = sent.astype(int)
     df["Total Delivered"] = delivered.astype(int)
     df["Delivery %"] = safe_rate(delivered, sent)
-    df["Total Viewed"] = viewed.astype(int)
+    df["Viewed"] = viewed.astype(int)
     df["Viewed %"] = safe_rate(viewed, delivered)
     df["Clicked"] = clicks.astype(int)
     df["Clicked%"] = safe_rate(clicks, sent)
@@ -40,5 +40,4 @@ def clean_clevertap_whatsapp(df: pd.DataFrame) -> pd.DataFrame:
     df["Influenced Revenue"] = clean_number(first_existing(df, "Influenced Revenue"))
     df["Cost"] = cost.where(cost.ne(0), "")
     df["ROAS"] = (revenue / cost.mask(cost.eq(0))).round(2).fillna("")
-    df["Message"] = first_existing(df, "Message", "Body")
-    return add_if_missing(df, WHATSAPP_COLUMNS)
+    return add_if_missing(df, RCS_COLUMNS)

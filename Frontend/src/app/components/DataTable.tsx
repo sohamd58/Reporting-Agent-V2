@@ -12,6 +12,63 @@ type DataTableProps = {
   onToggle: () => void;
 };
 
+function isPercentageColumn(column: string) {
+  const normalized = column.trim().toLowerCase();
+  const compact = normalized.replace(/\s+/g, '');
+  return (
+    normalized.includes('%') ||
+    normalized.includes('rate') ||
+    compact === 'ctr' ||
+    compact.endsWith('ctr') ||
+    compact === 'ctor' ||
+    compact.endsWith('ctor')
+  );
+}
+
+function parseNumber(value: unknown) {
+  const numeric = Number(String(value ?? '').replace(/[%,$,]/g, '').trim());
+  return Number.isFinite(numeric) ? numeric : null;
+}
+
+function blank(value: unknown) {
+  const text = String(value ?? '').trim();
+  return !text || ['nan', 'nat', '<na>', 'none', '-'].includes(text.toLowerCase());
+}
+
+function formatPercent(value: unknown) {
+  if (blank(value)) return '-';
+  const text = String(value).trim();
+  if (text.endsWith('%')) return text;
+  const numeric = parseNumber(value);
+  return numeric === null ? text : `${numeric.toFixed(2)}%`;
+}
+
+function calculatedPercentage(row: Record<string, unknown>, key: string) {
+  const numerator =
+    key === 'Impression %'
+      ? parseNumber(row.Impression ?? row['Total Impressions'])
+      : key === 'Clicked%' || key === 'Clicked %'
+        ? parseNumber(row.Clicked ?? row['Total Clicks'])
+        : null;
+  const denominator = parseNumber(row['Total Sent'] ?? row.Sent);
+
+  if (numerator === null || denominator === null || denominator === 0) return null;
+  return `${((numerator / denominator) * 100).toFixed(2)}%`;
+}
+
+function displayValue(row: Record<string, unknown>, key: string) {
+  const value = row[key];
+  if (!isPercentageColumn(key)) {
+    return blank(value) ? '-' : String(value);
+  }
+
+  if (blank(value)) {
+    return calculatedPercentage(row, key) ?? '-';
+  }
+
+  return formatPercent(value);
+}
+
 export default function DataTable({
   title,
   subtitle,
@@ -68,7 +125,7 @@ export default function DataTable({
                           {key}
                         </div>
                         <div className="mt-1 break-words text-sm font-medium text-[#111111]">
-                          {String(row[key] ?? '-')}
+                          {displayValue(row, key)}
                         </div>
                       </div>
                     ))}
@@ -119,8 +176,8 @@ export default function DataTable({
                     >
                       {columns.map((key) => (
                         <td key={key} className="max-w-xs px-6 py-3 text-sm font-medium text-[#111111]">
-                          <span className="block truncate" title={String(row[key] ?? '')}>
-                            {String(row[key] ?? '-')}
+                          <span className="block truncate" title={displayValue(row, key)}>
+                            {displayValue(row, key)}
                           </span>
                         </td>
                       ))}

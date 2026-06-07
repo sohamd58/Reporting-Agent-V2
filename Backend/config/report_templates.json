@@ -1,664 +1,130 @@
 {
-  "CleverTap Email - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Opens",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
-      }
-    ]
-  },
-  "CleverTap Push - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Impressions",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "CleverTap SMS - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Delivery Rate (%)",
-        "source": "calculated",
-        "formula": "Total Delivered(users) / Total Sent(users) * 100"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
-      }
-    ]
-  },
-  "CleverTap RCS - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Viewed",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "View Rate (%)",
-        "source": "calculated",
-        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "CleverTap WhatsApp - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Read",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Read Rate (%)",
-        "source": "calculated",
-        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "CleverTap In-app - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Viewed",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "View Rate (%)",
-        "source": "calculated",
-        "formula": "Total Viewed(users) / Total Sent(users) * 100"
-      },
-      {
-        "name": "Click Rate (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "CleverTap Web Pop-up - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Viewed",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Conversion Rate (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "CleverTap Native Display - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Impressions",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "MoEngage Email - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Opens",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
-      }
-    ]
-  },
-  "MoEngage Push - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Impressions",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "MoEngage SMS - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Delivery Rate (%)",
-        "source": "calculated",
-        "formula": "Total Delivered(users) / Total Sent(users) * 100"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
-      }
-    ]
-  },
-  "MoEngage RCS - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Viewed",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "View Rate (%)",
-        "source": "calculated",
-        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "MoEngage WhatsApp - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Read",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Read Rate (%)",
-        "source": "calculated",
-        "formula": "Total Viewed(users) / Total Delivered(users) * 100"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "MoEngage OSM - Weekly Summary": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Impressions",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicks",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Viewed(users) * 100"
-      }
-    ]
-  },
-  "CleverTap Mixed - Default": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Channel",
-        "source": "direct",
-        "column": "Channel"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Viewed",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicked",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Conversions",
-        "source": "direct",
-        "column": "Conversions"
-      },
-      {
-        "name": "Revenue",
-        "source": "direct",
-        "column": "Revenue"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
-      }
-    ]
-  },
-  "MoEngage Mixed - Default": {
-    "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
-      {
-        "name": "Channel",
-        "source": "direct",
-        "column": "Channel"
-      },
-      {
-        "name": "Run Date",
-        "source": "direct",
-        "column": "Run Date"
-      },
-      {
-        "name": "Total Sent",
-        "source": "direct",
-        "column": "Total Sent(users)"
-      },
-      {
-        "name": "Total Delivered",
-        "source": "direct",
-        "column": "Total Delivered(users)"
-      },
-      {
-        "name": "Total Viewed",
-        "source": "direct",
-        "column": "Total Viewed(users)"
-      },
-      {
-        "name": "Total Clicked",
-        "source": "direct",
-        "column": "Total Clicked(users)"
-      },
-      {
-        "name": "Conversions",
-        "source": "direct",
-        "column": "Conversions"
-      },
-      {
-        "name": "Revenue",
-        "source": "direct",
-        "column": "Revenue"
-      },
-      {
-        "name": "CTR (%)",
-        "source": "calculated",
-        "formula": "Total Clicked(users) / Total Delivered(users) * 100"
-      }
-    ]
-  },
   "CleverTap Reporting Agent - Default": {
     "columns": [
-      {
-        "name": "Campaign Name",
-        "source": "direct",
-        "column": "Campaign Name"
-      },
       {
         "name": "Date",
         "source": "direct",
         "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Labels",
+        "source": "direct",
+        "column": "Labels"
+      },
+      {
+        "name": "Segments",
+        "source": "direct",
+        "column": "Segments"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Sent",
+        "source": "direct",
+        "column": "Sent"
+      },
+      {
+        "name": "Delivered",
+        "source": "direct",
+        "column": "Delivered"
+      },
+      {
+        "name": "Delivered %",
+        "source": "direct",
+        "column": "Delivered %"
+      },
+      {
+        "name": "Viewed",
+        "source": "direct",
+        "column": "Viewed"
+      },
+      {
+        "name": "Viewed %",
+        "source": "direct",
+        "column": "Viewed %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked %",
+        "source": "direct",
+        "column": "Clicked %"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click through conversion",
+        "source": "direct",
+        "column": "Click through conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through conversion revenue",
+        "source": "direct",
+        "column": "Click through conversion revenue"
+      },
+      {
+        "name": "Influenced Conversions",
+        "source": "direct",
+        "column": "Influenced Conversions"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Cost",
+        "source": "direct",
+        "column": "Cost"
+      },
+      {
+        "name": "ROAS",
+        "source": "direct",
+        "column": "ROAS"
       },
       {
         "name": "Title",
@@ -669,11 +135,660 @@
         "name": "Message",
         "source": "direct",
         "column": "Message"
+      }
+    ]
+  },
+  "CleverTap Push": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
       },
       {
-        "name": "Clicks",
+        "name": "Time",
         "source": "direct",
-        "column": "Clicks"
+        "column": "Time"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Label",
+        "source": "direct",
+        "column": "Label"
+      },
+      {
+        "name": "Segment",
+        "source": "direct",
+        "column": "Segment"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Impression",
+        "source": "direct",
+        "column": "Impression"
+      },
+      {
+        "name": "Impression %",
+        "source": "direct",
+        "column": "Impression %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked%",
+        "source": "direct",
+        "column": "Clicked%"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click Through Conversion",
+        "source": "direct",
+        "column": "Click Through Conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through Revenue",
+        "source": "direct",
+        "column": "Click through Revenue"
+      },
+      {
+        "name": "Influenced Conversion",
+        "source": "direct",
+        "column": "Influenced Conversion"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Headline",
+        "source": "direct",
+        "column": "Headline"
+      },
+      {
+        "name": "Body",
+        "source": "direct",
+        "column": "Body"
+      }
+    ]
+  },
+  "CleverTap Email": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Label",
+        "source": "direct",
+        "column": "Label"
+      },
+      {
+        "name": "Segment",
+        "source": "direct",
+        "column": "Segment"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed"
+      },
+      {
+        "name": "Viewed %",
+        "source": "direct",
+        "column": "Viewed %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked%",
+        "source": "direct",
+        "column": "Clicked%"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click Through Conversion",
+        "source": "direct",
+        "column": "Click Through Conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through Revenue",
+        "source": "direct",
+        "column": "Click through Revenue"
+      },
+      {
+        "name": "Influenced Conversion",
+        "source": "direct",
+        "column": "Influenced Conversion"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Subject",
+        "source": "direct",
+        "column": "Subject"
+      },
+      {
+        "name": "Preheader",
+        "source": "direct",
+        "column": "Preheader"
+      }
+    ]
+  },
+  "CleverTap SMS": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Label",
+        "source": "direct",
+        "column": "Label"
+      },
+      {
+        "name": "Segment",
+        "source": "direct",
+        "column": "Segment"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Delivery %",
+        "source": "direct",
+        "column": "Delivery %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked%",
+        "source": "direct",
+        "column": "Clicked%"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click Through Conversion",
+        "source": "direct",
+        "column": "Click Through Conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through Revenue",
+        "source": "direct",
+        "column": "Click through Revenue"
+      },
+      {
+        "name": "Influenced Conversion",
+        "source": "direct",
+        "column": "Influenced Conversion"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Cost",
+        "source": "direct",
+        "column": "Cost"
+      },
+      {
+        "name": "ROAS",
+        "source": "direct",
+        "column": "ROAS"
+      },
+      {
+        "name": "Message",
+        "source": "direct",
+        "column": "Message"
+      }
+    ]
+  },
+  "CleverTap RCS": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Label",
+        "source": "direct",
+        "column": "Label"
+      },
+      {
+        "name": "Segment",
+        "source": "direct",
+        "column": "Segment"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Delivery %",
+        "source": "direct",
+        "column": "Delivery %"
+      },
+      {
+        "name": "Viewed",
+        "source": "direct",
+        "column": "Viewed"
+      },
+      {
+        "name": "Viewed %",
+        "source": "direct",
+        "column": "Viewed %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked%",
+        "source": "direct",
+        "column": "Clicked%"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click Through Conversion",
+        "source": "direct",
+        "column": "Click Through Conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through Revenue",
+        "source": "direct",
+        "column": "Click through Revenue"
+      },
+      {
+        "name": "Influenced Conversion",
+        "source": "direct",
+        "column": "Influenced Conversion"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Cost",
+        "source": "direct",
+        "column": "Cost"
+      },
+      {
+        "name": "ROAS",
+        "source": "direct",
+        "column": "ROAS"
+      }
+    ]
+  },
+  "CleverTap WhatsApp": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Label",
+        "source": "direct",
+        "column": "Label"
+      },
+      {
+        "name": "Segment",
+        "source": "direct",
+        "column": "Segment"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Delivery %",
+        "source": "direct",
+        "column": "Delivery %"
+      },
+      {
+        "name": "Total Viewed",
+        "source": "direct",
+        "column": "Total Viewed"
+      },
+      {
+        "name": "Viewed %",
+        "source": "direct",
+        "column": "Viewed %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked%",
+        "source": "direct",
+        "column": "Clicked%"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click Through Conversion",
+        "source": "direct",
+        "column": "Click Through Conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through Revenue",
+        "source": "direct",
+        "column": "Click through Revenue"
+      },
+      {
+        "name": "Influenced Conversion",
+        "source": "direct",
+        "column": "Influenced Conversion"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Cost",
+        "source": "direct",
+        "column": "Cost"
+      },
+      {
+        "name": "ROAS",
+        "source": "direct",
+        "column": "ROAS"
+      },
+      {
+        "name": "Message",
+        "source": "direct",
+        "column": "Message"
+      }
+    ]
+  },
+  "CleverTap Mixed": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Week",
+        "source": "direct",
+        "column": "Week"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Labels",
+        "source": "direct",
+        "column": "Labels"
+      },
+      {
+        "name": "Segments",
+        "source": "direct",
+        "column": "Segments"
+      },
+      {
+        "name": "Estimated Reach",
+        "source": "direct",
+        "column": "Estimated Reach"
+      },
+      {
+        "name": "Sent",
+        "source": "direct",
+        "column": "Sent"
       },
       {
         "name": "Delivered",
@@ -681,9 +796,964 @@
         "column": "Delivered"
       },
       {
+        "name": "Delivered %",
+        "source": "direct",
+        "column": "Delivered %"
+      },
+      {
+        "name": "Viewed",
+        "source": "direct",
+        "column": "Viewed"
+      },
+      {
+        "name": "Viewed %",
+        "source": "direct",
+        "column": "Viewed %"
+      },
+      {
+        "name": "Clicked",
+        "source": "direct",
+        "column": "Clicked"
+      },
+      {
+        "name": "Clicked %",
+        "source": "direct",
+        "column": "Clicked %"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click through conversion",
+        "source": "direct",
+        "column": "Click through conversion"
+      },
+      {
+        "name": "Click Through Conversion %",
+        "source": "direct",
+        "column": "Click Through Conversion %"
+      },
+      {
+        "name": "Click through conversion revenue",
+        "source": "direct",
+        "column": "Click through conversion revenue"
+      },
+      {
+        "name": "Influenced Conversions",
+        "source": "direct",
+        "column": "Influenced Conversions"
+      },
+      {
+        "name": "Influenced Conversion %",
+        "source": "direct",
+        "column": "Influenced Conversion %"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Cost",
+        "source": "direct",
+        "column": "Cost"
+      },
+      {
+        "name": "ROAS",
+        "source": "direct",
+        "column": "ROAS"
+      },
+      {
+        "name": "Title",
+        "source": "direct",
+        "column": "Title"
+      },
+      {
+        "name": "Message",
+        "source": "direct",
+        "column": "Message"
+      }
+    ]
+  },
+  "MoEngage Push": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Time",
+        "source": "direct",
+        "column": "Time"
+      },
+      {
+        "name": "Month",
+        "source": "direct",
+        "column": "Month"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Campaign ID",
+        "source": "direct",
+        "column": "Campaign ID"
+      },
+      {
+        "name": "Conversion Goal 1 Event",
+        "source": "direct",
+        "column": "Conversion Goal 1 Event"
+      },
+      {
+        "name": "Message",
+        "source": "direct",
+        "column": "Message"
+      },
+      {
+        "name": "Title",
+        "source": "direct",
+        "column": "Title"
+      },
+      {
+        "name": "Android Sent",
+        "source": "direct",
+        "column": "Android Sent"
+      },
+      {
+        "name": "Ios Sent",
+        "source": "direct",
+        "column": "Ios Sent"
+      },
+      {
+        "name": "Web Sent",
+        "source": "direct",
+        "column": "Web Sent"
+      },
+      {
+        "name": "All Platform Sent",
+        "source": "direct",
+        "column": "All Platform Sent"
+      },
+      {
+        "name": "Android Sent Rate",
+        "source": "direct",
+        "column": "Android Sent Rate"
+      },
+      {
+        "name": "Ios Sent Rate",
+        "source": "direct",
+        "column": "Ios Sent Rate"
+      },
+      {
+        "name": "Web Sent Rate",
+        "source": "direct",
+        "column": "Web Sent Rate"
+      },
+      {
+        "name": "All Platform Sent Rate",
+        "source": "direct",
+        "column": "All Platform Sent Rate"
+      },
+      {
+        "name": "Android Impressions",
+        "source": "direct",
+        "column": "Android Impressions"
+      },
+      {
+        "name": "Ios Impressions",
+        "source": "direct",
+        "column": "Ios Impressions"
+      },
+      {
+        "name": "Web Impressions",
+        "source": "direct",
+        "column": "Web Impressions"
+      },
+      {
+        "name": "All Platform Impressions",
+        "source": "direct",
+        "column": "All Platform Impressions"
+      },
+      {
+        "name": "Android Impression Rate",
+        "source": "direct",
+        "column": "Android Impression Rate"
+      },
+      {
+        "name": "Ios Impression Rate",
+        "source": "direct",
+        "column": "Ios Impression Rate"
+      },
+      {
+        "name": "Web Impression Rate",
+        "source": "direct",
+        "column": "Web Impression Rate"
+      },
+      {
+        "name": "All Platform Impression Rate",
+        "source": "direct",
+        "column": "All Platform Impression Rate"
+      },
+      {
+        "name": "Android Clicks",
+        "source": "direct",
+        "column": "Android Clicks"
+      },
+      {
+        "name": "Ios Clicks",
+        "source": "direct",
+        "column": "Ios Clicks"
+      },
+      {
+        "name": "Web Clicks",
+        "source": "direct",
+        "column": "Web Clicks"
+      },
+      {
+        "name": "All Platform Clicks",
+        "source": "direct",
+        "column": "All Platform Clicks"
+      },
+      {
+        "name": "Android CTR",
+        "source": "direct",
+        "column": "Android CTR"
+      },
+      {
+        "name": "Ios CTR",
+        "source": "direct",
+        "column": "Ios CTR"
+      },
+      {
+        "name": "Web CTR",
+        "source": "direct",
+        "column": "Web CTR"
+      },
+      {
+        "name": "All Platform CTR",
+        "source": "direct",
+        "column": "All Platform CTR"
+      },
+      {
+        "name": "Goal 1 Click Through Conversion Events Android",
+        "source": "direct",
+        "column": "Goal 1 Click Through Conversion Events Android"
+      },
+      {
+        "name": "Goal 1 Click Through Conversion Events Ios",
+        "source": "direct",
+        "column": "Goal 1 Click Through Conversion Events Ios"
+      },
+      {
+        "name": "Goal 1 Click Through Conversion Events Web",
+        "source": "direct",
+        "column": "Goal 1 Click Through Conversion Events Web"
+      },
+      {
+        "name": "Goal 1 Click Through Conversion Events All Platform",
+        "source": "direct",
+        "column": "Goal 1 Click Through Conversion Events All Platform"
+      },
+      {
+        "name": "Goal 1 Click Through Total Revenue Android",
+        "source": "direct",
+        "column": "Goal 1 Click Through Total Revenue Android"
+      },
+      {
+        "name": "Goal 1 Click Through Total Revenue Ios",
+        "source": "direct",
+        "column": "Goal 1 Click Through Total Revenue Ios"
+      },
+      {
+        "name": "Goal 1 Click Through Total Revenue Web",
+        "source": "direct",
+        "column": "Goal 1 Click Through Total Revenue Web"
+      },
+      {
+        "name": "Goal 1 Click Through Total Revenue All Platform",
+        "source": "direct",
+        "column": "Goal 1 Click Through Total Revenue All Platform"
+      },
+      {
+        "name": "Goal 1 View Through Conversion Events Android",
+        "source": "direct",
+        "column": "Goal 1 View Through Conversion Events Android"
+      },
+      {
+        "name": "Goal 1 View Through Conversion Events Ios",
+        "source": "direct",
+        "column": "Goal 1 View Through Conversion Events Ios"
+      },
+      {
+        "name": "Goal 1 View Through Conversion Events Web",
+        "source": "direct",
+        "column": "Goal 1 View Through Conversion Events Web"
+      },
+      {
+        "name": "Goal 1 View Through Conversion Events All Platform",
+        "source": "direct",
+        "column": "Goal 1 View Through Conversion Events All Platform"
+      },
+      {
+        "name": "Goal 1 View Through Total Revenue Android",
+        "source": "direct",
+        "column": "Goal 1 View Through Total Revenue Android"
+      },
+      {
+        "name": "Goal 1 View Through Total Revenue Ios",
+        "source": "direct",
+        "column": "Goal 1 View Through Total Revenue Ios"
+      },
+      {
+        "name": "Goal 1 View Through Total Revenue Web",
+        "source": "direct",
+        "column": "Goal 1 View Through Total Revenue Web"
+      },
+      {
+        "name": "Goal 1 View Through Total Revenue All Platform",
+        "source": "direct",
+        "column": "Goal 1 View Through Total Revenue All Platform"
+      }
+    ]
+  },
+  "MoEngage Email": {
+    "columns": [
+      {
+        "name": "Send Date",
+        "source": "direct",
+        "column": "Send Date"
+      },
+      {
+        "name": "Send Time",
+        "source": "direct",
+        "column": "Send Time"
+      },
+      {
+        "name": "Brand",
+        "source": "direct",
+        "column": "Brand"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Campaign Content Type",
+        "source": "direct",
+        "column": "Campaign Content Type"
+      },
+      {
+        "name": "Conversion Goal 1",
+        "source": "direct",
+        "column": "Conversion Goal 1"
+      },
+      {
+        "name": "Conversion Goal 2",
+        "source": "direct",
+        "column": "Conversion Goal 2"
+      },
+      {
+        "name": "Segment",
+        "source": "direct",
+        "column": "Segment"
+      },
+      {
+        "name": "Email Subject",
+        "source": "direct",
+        "column": "Email Subject"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Drops",
+        "source": "direct",
+        "column": "Drops"
+      },
+      {
+        "name": "Unique opens",
+        "source": "direct",
+        "column": "Unique opens"
+      },
+      {
+        "name": "Total Open",
+        "source": "direct",
+        "column": "Total Open"
+      },
+      {
+        "name": "Unique clicks",
+        "source": "direct",
+        "column": "Unique clicks"
+      },
+      {
+        "name": "Total clicks",
+        "source": "direct",
+        "column": "Total clicks"
+      },
+      {
+        "name": "Delivery rate (%)",
+        "source": "direct",
+        "column": "Delivery rate (%)"
+      },
+      {
+        "name": "Open rate (%)",
+        "source": "direct",
+        "column": "Open rate (%)"
+      },
+      {
         "name": "CTR (%)",
         "source": "direct",
         "column": "CTR (%)"
+      },
+      {
+        "name": "Total Hard bounces",
+        "source": "direct",
+        "column": "Total Hard bounces"
+      },
+      {
+        "name": "Total Soft bounces",
+        "source": "direct",
+        "column": "Total Soft bounces"
+      },
+      {
+        "name": "Unsubscribes",
+        "source": "direct",
+        "column": "Unsubscribes"
+      },
+      {
+        "name": "Complaints",
+        "source": "direct",
+        "column": "Complaints"
+      },
+      {
+        "name": "Goal 1 (Purchase) Converted Users",
+        "source": "direct",
+        "column": "Goal 1 (Purchase) Converted Users"
+      },
+      {
+        "name": "Goal 2 (Add-to-Cart) Converted Users",
+        "source": "direct",
+        "column": "Goal 2 (Add-to-Cart) Converted Users"
+      },
+      {
+        "name": "Goal 1 (Purchase) Conversion Events",
+        "source": "direct",
+        "column": "Goal 1 (Purchase) Conversion Events"
+      },
+      {
+        "name": "Goal 2 (Add-to-Cart) Conversion Events",
+        "source": "direct",
+        "column": "Goal 2 (Add-to-Cart) Conversion Events"
+      },
+      {
+        "name": "Total Revenue",
+        "source": "direct",
+        "column": "Total Revenue"
+      }
+    ]
+  },
+  "MoEngage WhatsApp": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Send Time",
+        "source": "direct",
+        "column": "Send Time"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Campaign Type",
+        "source": "direct",
+        "column": "Campaign Type"
+      },
+      {
+        "name": "Brand",
+        "source": "direct",
+        "column": "Brand"
+      },
+      {
+        "name": "Master Campaign / Offer Category",
+        "source": "direct",
+        "column": "Master Campaign / Offer Category"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Segment Name",
+        "source": "direct",
+        "column": "Segment Name"
+      },
+      {
+        "name": "Segment Logic",
+        "source": "direct",
+        "column": "Segment Logic"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Delivery Rate",
+        "source": "direct",
+        "column": "Delivery Rate"
+      },
+      {
+        "name": "Total Read",
+        "source": "direct",
+        "column": "Total Read"
+      },
+      {
+        "name": "Read Rate",
+        "source": "direct",
+        "column": "Read Rate"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicks"
+      },
+      {
+        "name": "Unique Clicks",
+        "source": "direct",
+        "column": "Unique Clicks"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click to Open Rate",
+        "source": "direct",
+        "column": "Click to Open Rate"
+      },
+      {
+        "name": "Goal 1 Conversions",
+        "source": "direct",
+        "column": "Goal 1 Conversions"
+      },
+      {
+        "name": "Goal 2 Add to Cart",
+        "source": "direct",
+        "column": "Goal 2 Add to Cart"
+      },
+      {
+        "name": "Total Campaign Revenue INR",
+        "source": "direct",
+        "column": "Total Campaign Revenue INR"
+      },
+      {
+        "name": "Campaign Channel Type",
+        "source": "direct",
+        "column": "Campaign Channel Type"
+      },
+      {
+        "name": "Template Type",
+        "source": "direct",
+        "column": "Template Type"
+      },
+      {
+        "name": "Segment Customer Base Type",
+        "source": "direct",
+        "column": "Segment Customer Base Type"
+      },
+      {
+        "name": "Track Goals for",
+        "source": "direct",
+        "column": "Track Goals for"
+      },
+      {
+        "name": "Campaign ID",
+        "source": "direct",
+        "column": "Campaign ID"
+      },
+      {
+        "name": "Campaign Purchased Customers",
+        "source": "direct",
+        "column": "Campaign Purchased Customers"
+      },
+      {
+        "name": "Campaign Purchased Customers - Online",
+        "source": "direct",
+        "column": "Campaign Purchased Customers - Online"
+      },
+      {
+        "name": "Campaign Purchased Customers - Offline",
+        "source": "direct",
+        "column": "Campaign Purchased Customers - Offline"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Influenced Revenue - Online",
+        "source": "direct",
+        "column": "Influenced Revenue - Online"
+      },
+      {
+        "name": "Influenced Revenue - Offline",
+        "source": "direct",
+        "column": "Influenced Revenue - Offline"
+      }
+    ]
+  },
+  "MoEngage SMS": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Send Time",
+        "source": "direct",
+        "column": "Send Time"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Campaign Type",
+        "source": "direct",
+        "column": "Campaign Type"
+      },
+      {
+        "name": "Brand",
+        "source": "direct",
+        "column": "Brand"
+      },
+      {
+        "name": "Master Campaign / Offer Category",
+        "source": "direct",
+        "column": "Master Campaign / Offer Category"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Segment Name",
+        "source": "direct",
+        "column": "Segment Name"
+      },
+      {
+        "name": "Segment Logic",
+        "source": "direct",
+        "column": "Segment Logic"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Delivery Rate",
+        "source": "direct",
+        "column": "Delivery Rate"
+      },
+      {
+        "name": "Total Read",
+        "source": "direct",
+        "column": "Total Read"
+      },
+      {
+        "name": "Read Rate",
+        "source": "direct",
+        "column": "Read Rate"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicks"
+      },
+      {
+        "name": "Unique Clicks",
+        "source": "direct",
+        "column": "Unique Clicks"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click to Open Rate",
+        "source": "direct",
+        "column": "Click to Open Rate"
+      },
+      {
+        "name": "Goal 1 Conversions",
+        "source": "direct",
+        "column": "Goal 1 Conversions"
+      },
+      {
+        "name": "Goal 2 Add to Cart",
+        "source": "direct",
+        "column": "Goal 2 Add to Cart"
+      },
+      {
+        "name": "Total Campaign Revenue INR",
+        "source": "direct",
+        "column": "Total Campaign Revenue INR"
+      },
+      {
+        "name": "Campaign Channel Type",
+        "source": "direct",
+        "column": "Campaign Channel Type"
+      },
+      {
+        "name": "Template Type",
+        "source": "direct",
+        "column": "Template Type"
+      },
+      {
+        "name": "Segment Customer Base Type",
+        "source": "direct",
+        "column": "Segment Customer Base Type"
+      },
+      {
+        "name": "Track Goals for",
+        "source": "direct",
+        "column": "Track Goals for"
+      },
+      {
+        "name": "Campaign ID",
+        "source": "direct",
+        "column": "Campaign ID"
+      },
+      {
+        "name": "Campaign Purchased Customers",
+        "source": "direct",
+        "column": "Campaign Purchased Customers"
+      },
+      {
+        "name": "Campaign Purchased Customers - Online",
+        "source": "direct",
+        "column": "Campaign Purchased Customers - Online"
+      },
+      {
+        "name": "Campaign Purchased Customers - Offline",
+        "source": "direct",
+        "column": "Campaign Purchased Customers - Offline"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Influenced Revenue - Online",
+        "source": "direct",
+        "column": "Influenced Revenue - Online"
+      },
+      {
+        "name": "Influenced Revenue - Offline",
+        "source": "direct",
+        "column": "Influenced Revenue - Offline"
+      }
+    ]
+  },
+  "MoEngage RCS": {
+    "columns": [
+      {
+        "name": "Date",
+        "source": "direct",
+        "column": "Date"
+      },
+      {
+        "name": "Send Time",
+        "source": "direct",
+        "column": "Send Time"
+      },
+      {
+        "name": "Channel",
+        "source": "direct",
+        "column": "Channel"
+      },
+      {
+        "name": "Campaign Type",
+        "source": "direct",
+        "column": "Campaign Type"
+      },
+      {
+        "name": "Brand",
+        "source": "direct",
+        "column": "Brand"
+      },
+      {
+        "name": "Master Campaign / Offer Category",
+        "source": "direct",
+        "column": "Master Campaign / Offer Category"
+      },
+      {
+        "name": "Campaign Name",
+        "source": "direct",
+        "column": "Campaign Name"
+      },
+      {
+        "name": "Segment Name",
+        "source": "direct",
+        "column": "Segment Name"
+      },
+      {
+        "name": "Segment Logic",
+        "source": "direct",
+        "column": "Segment Logic"
+      },
+      {
+        "name": "Total Sent",
+        "source": "direct",
+        "column": "Total Sent"
+      },
+      {
+        "name": "Total Delivered",
+        "source": "direct",
+        "column": "Total Delivered"
+      },
+      {
+        "name": "Delivery Rate",
+        "source": "direct",
+        "column": "Delivery Rate"
+      },
+      {
+        "name": "Total Read",
+        "source": "direct",
+        "column": "Total Read"
+      },
+      {
+        "name": "Read Rate",
+        "source": "direct",
+        "column": "Read Rate"
+      },
+      {
+        "name": "Total Clicks",
+        "source": "direct",
+        "column": "Total Clicks"
+      },
+      {
+        "name": "Unique Clicks",
+        "source": "direct",
+        "column": "Unique Clicks"
+      },
+      {
+        "name": "CTR",
+        "source": "direct",
+        "column": "CTR"
+      },
+      {
+        "name": "Click to Open Rate",
+        "source": "direct",
+        "column": "Click to Open Rate"
+      },
+      {
+        "name": "Goal 1 Conversions",
+        "source": "direct",
+        "column": "Goal 1 Conversions"
+      },
+      {
+        "name": "Goal 2 Add to Cart",
+        "source": "direct",
+        "column": "Goal 2 Add to Cart"
+      },
+      {
+        "name": "Total Campaign Revenue INR",
+        "source": "direct",
+        "column": "Total Campaign Revenue INR"
+      },
+      {
+        "name": "Campaign Channel Type",
+        "source": "direct",
+        "column": "Campaign Channel Type"
+      },
+      {
+        "name": "Template Type",
+        "source": "direct",
+        "column": "Template Type"
+      },
+      {
+        "name": "Segment Customer Base Type",
+        "source": "direct",
+        "column": "Segment Customer Base Type"
+      },
+      {
+        "name": "Track Goals for",
+        "source": "direct",
+        "column": "Track Goals for"
+      },
+      {
+        "name": "Campaign ID",
+        "source": "direct",
+        "column": "Campaign ID"
+      },
+      {
+        "name": "Campaign Purchased Customers",
+        "source": "direct",
+        "column": "Campaign Purchased Customers"
+      },
+      {
+        "name": "Campaign Purchased Customers - Online",
+        "source": "direct",
+        "column": "Campaign Purchased Customers - Online"
+      },
+      {
+        "name": "Campaign Purchased Customers - Offline",
+        "source": "direct",
+        "column": "Campaign Purchased Customers - Offline"
+      },
+      {
+        "name": "Influenced Revenue",
+        "source": "direct",
+        "column": "Influenced Revenue"
+      },
+      {
+        "name": "Influenced Revenue - Online",
+        "source": "direct",
+        "column": "Influenced Revenue - Online"
+      },
+      {
+        "name": "Influenced Revenue - Offline",
+        "source": "direct",
+        "column": "Influenced Revenue - Offline"
       }
     ]
   }

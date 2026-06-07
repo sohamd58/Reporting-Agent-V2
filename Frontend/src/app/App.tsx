@@ -8,18 +8,16 @@ import {
   uploadFile,
 } from './api';
 import ChannelSelector from './components/ChannelSelector';
-import ColumnTypesPanel from './components/ColumnTypesPanel';
 import ConfirmDialog from './components/ConfirmDialog';
 import DashboardShell from './components/DashboardShell';
 import DataTable from './components/DataTable';
 import ExportPanel from './components/ExportPanel';
 import PlatformGate from './components/PlatformGate';
+import ReportInsights from './components/ReportInsights';
 import StatCard from './components/StatCard';
 import TemplateDesigner from './components/TemplateDesigner';
 import UploadDropzone from './components/UploadDropzone';
 import type { Platform, PreviewState, SortConfig } from './types';
-
-const DEFAULT_REPORT_TEMPLATE = 'CleverTap Reporting Agent - Default';
 
 type PreviewPayload = {
   columns: string[];
@@ -65,13 +63,30 @@ function nextSortConfig(current: SortConfig, key: string): SortConfig {
   return { key, direction: 'asc' };
 }
 
+function templateMatchesChannels(template: string, channels: string[]) {
+  if (channels.length === 0) return false;
+
+  const normalized = template.toLowerCase();
+  const channelMatches = channels.some((channel) => {
+    const channelKey = channel.toLowerCase();
+    if (channelKey === 'push notification') return normalized.includes('push');
+    if (channelKey === 'sms') return normalized.includes('sms');
+    if (channelKey === 'whatsapp') return normalized.includes('whatsapp');
+    if (channelKey === 'email') return normalized.includes('email');
+    if (channelKey === 'rcs') return normalized.includes('rcs');
+    return normalized.includes(channelKey);
+  });
+
+  const isMixed = normalized.includes('mixed') || normalized.includes('reporting agent');
+  return channelMatches || (channels.length > 1 && isMixed);
+}
+
 export default function App() {
   const [platform, setPlatform] = useState<Platform | null>(null);
   const [currentPage, setCurrentPage] = useState<'dashboard' | 'template'>('dashboard');
   const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
   const [previewSortConfig, setPreviewSortConfig] = useState<SortConfig>(null);
   const [showPreview, setShowPreview] = useState(true);
-  const [showColumnTypes, setShowColumnTypes] = useState(true);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedTemplate, setSelectedTemplate] = useState('');
@@ -82,7 +97,6 @@ export default function App() {
   const [fileId, setFileId] = useState<string | null>(null);
   const [preview, setPreview] = useState<PreviewState | null>(null);
   const [availableChannels, setAvailableChannels] = useState<string[]>([]);
-  const [columnTypes, setColumnTypes] = useState<Record<string, string>>({});
   const [templates, setTemplates] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDraggingFile, setIsDraggingFile] = useState(false);
@@ -93,7 +107,10 @@ export default function App() {
     () => sortRows(preview?.rows ?? [], previewSortConfig).slice(0, 10),
     [preview?.rows, previewSortConfig],
   );
-  const columnTypesEntries = useMemo(() => Object.entries(columnTypes), [columnTypes]);
+  const templateOptions = useMemo(
+    () => templates.filter((template) => templateMatchesChannels(template, availableChannels)),
+    [templates, availableChannels],
+  );
   const selectedChannelsKey = useMemo(
     () => [...selectedChannels].sort().join('|'),
     [selectedChannels],
@@ -133,14 +150,14 @@ export default function App() {
   }, [platform]);
 
   useEffect(() => {
-    if (selectedTemplate && !templates.includes(selectedTemplate)) {
+    if (selectedTemplate && !templateOptions.includes(selectedTemplate)) {
       setSelectedTemplate('');
       return;
     }
-    if (!selectedTemplate && templates.includes(DEFAULT_REPORT_TEMPLATE)) {
-      setSelectedTemplate(DEFAULT_REPORT_TEMPLATE);
+    if (!selectedTemplate && templateOptions.length > 0) {
+      setSelectedTemplate(templateOptions[0]);
     }
-  }, [selectedTemplate, templates]);
+  }, [selectedTemplate, templateOptions]);
 
   useEffect(() => {
     if (!fileId || !platform) {
@@ -167,7 +184,6 @@ export default function App() {
     setPreview(null);
     setPreviewSortConfig(null);
     setShowPreview(true);
-    setColumnTypes({});
     setAvailableChannels([]);
     setSelectedChannels([]);
     setSelectedTemplate('');
@@ -201,7 +217,6 @@ export default function App() {
     setPreview(null);
     setPreviewSortConfig(null);
     setShowPreview(true);
-    setColumnTypes({});
 
     try {
       const response = await uploadFile(file);
@@ -259,7 +274,6 @@ export default function App() {
       setPreview(null);
     }
     setPreviewSortConfig(null);
-    setColumnTypes({});
   };
 
   const handleTemplateSelect = (template: string) => {
@@ -272,7 +286,6 @@ export default function App() {
       setPreview(null);
     }
     setPreviewSortConfig(null);
-    setColumnTypes({});
   };
 
   const handleCleanData = async () => {
@@ -296,7 +309,6 @@ export default function App() {
       setPreview(buildPreview('cleaned', response.preview));
       setPreviewSortConfig(null);
       setShowPreview(true);
-      setColumnTypes(response.column_types || {});
       setHasCleanedData(true);
       setCleanedTemplate(response.template_name || selectedTemplate);
       setCleanedSelectionKey(selectedChannelsKey);
@@ -445,7 +457,7 @@ export default function App() {
             <ChannelSelector
               channels={availableChannels}
               selectedChannels={selectedChannels}
-              templates={templates}
+              templates={templateOptions}
               selectedTemplate={selectedTemplate}
               isTemplateOpen={showTemplateDropdown}
               onToggle={toggleChannel}
@@ -508,11 +520,7 @@ export default function App() {
               onToggle={() => setShowPreview((value) => !value)}
             />
 
-            <ColumnTypesPanel
-              entries={columnTypesEntries}
-              isOpen={showColumnTypes}
-              onToggle={() => setShowColumnTypes((value) => !value)}
-            />
+            <ReportInsights />
           </div>
         </div>
       </div>

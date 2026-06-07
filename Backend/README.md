@@ -5,7 +5,7 @@ FastAPI and Python data-processing code for the reporting agent.
 ## Responsibilities
 
 - CSV upload and preview endpoints
-- CleverTap channel detection and cleaning
+- CleverTap and MoEngage channel detection and cleaning
 - Report-template loading, saving, and deletion
 - CSV/XLSX report generation
 - Runtime storage under `Backend/data/`

@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import json
 import re
-from importers.clevertap_email import clean_clevertap_email
+from importers.clevertap_channels.clevertap_email import clean_clevertap_email
 
 # Load your mixed CSV (adjust path if needed)
 file_path = "Levis_20Aprto26Apr_RawData - Levis_20Aprto26Apr_RawData.csv"

@@ -13,8 +13,13 @@ from fastapi.staticfiles import StaticFiles
 from config.template_store import add_template, delete_template, load_templates
 from importers.clevertap_channels.clevertap_mixed import (
     clean_clevertap_mixed,
-    detect_cleanable_channels,
-    detect_channels_only,
+    detect_cleanable_channels as detect_clevertap_cleanable_channels,
+    detect_channels_only as detect_clevertap_channels_only,
+)
+from importers.moengage_channels.moengage_mixed import (
+    clean_moengage_mixed,
+    detect_cleanable_channels as detect_moengage_cleanable_channels,
+    detect_channels_only as detect_moengage_channels_only,
 )
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -79,8 +84,98 @@ def _normalize_platform(platform: str | None) -> str:
     return platform.strip().lower()
 
 
+def _is_clevertap(platform_key: str) -> bool:
+    return platform_key in {"clevertap", "clever tap"}
+
+
+def _is_moengage(platform_key: str) -> bool:
+    return platform_key in {"moengage", "mo engage"}
+
+
 def _column_types(df: pd.DataFrame) -> dict[str, str]:
     return {col: str(dtype) for col, dtype in df.dtypes.items()}
+
+
+def _is_percentage_column(column: str) -> bool:
+    normalized = column.strip().lower()
+    compact = normalized.replace(" ", "")
+    if "%" in normalized:
+        return True
+    if "rate" in normalized:
+        return True
+    if compact.endswith("ctr") or "ctr" in compact.split("_"):
+        return True
+    if compact.endswith("ctor"):
+        return True
+    return compact in {"ctr", "ctor", "clicked%", "clickedrate"}
+
+
+def _format_percentage_value(value):
+    if pd.isna(value):
+        return ""
+    text = str(value).strip()
+    if not text or text in {"nan", "NaT", "<NA>"}:
+        return ""
+
+    numeric_text = text.replace("%", "").replace(",", "")
+    numeric = pd.to_numeric(numeric_text, errors="coerce")
+    if pd.isna(numeric):
+        return value
+
+    return f"{float(numeric):.2f}%"
+
+
+def _format_percentage_columns(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    for column in df.columns:
+        if not _is_percentage_column(column):
+            continue
+
+        df[column] = df[column].apply(_format_percentage_value)
+    return df
+
+
+def _blank_mask(series: pd.Series) -> pd.Series:
+    return series.astype(str).str.strip().isin(["", "nan", "NaT", "<NA>", "None"])
+
+
+def _fill_percentage_formula(
+    df: pd.DataFrame,
+    target: str,
+    numerator_names: list[str],
+    denominator_names: list[str],
+) -> None:
+    if target not in df.columns:
+        return
+
+    missing = _blank_mask(df[target])
+    if not missing.any():
+        return
+
+    numerator = _numeric_series(df, *numerator_names)
+    denominator = _numeric_series(df, *denominator_names)
+    if numerator is None or denominator is None:
+        return
+
+    calculated = ((numerator / denominator.mask(denominator.eq(0))) * 100).round(2)
+    df.loc[missing & calculated.notna(), target] = calculated.loc[missing & calculated.notna()]
+
+
+def _fill_common_percentage_formulas(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    _fill_percentage_formula(df, "Impression %", ["Impression", "Total Impressions"], ["Total Sent", "Sent"])
+    _fill_percentage_formula(df, "Clicked%", ["Clicked", "Total Clicks"], ["Total Sent", "Sent"])
+    _fill_percentage_formula(df, "Clicked %", ["Clicked", "Total Clicks"], ["Total Sent", "Sent"])
+    _fill_percentage_formula(df, "CTR", ["Clicked", "Total Clicks", "Unique Clicks"], ["Impression", "Total Viewed", "Total Read", "Viewed"])
+    _fill_percentage_formula(df, "Delivery Rate", ["Total Delivered", "Delivered"], ["Total Sent", "Sent"])
+    _fill_percentage_formula(df, "Delivery %", ["Total Delivered", "Delivered"], ["Total Sent", "Sent"])
+    _fill_percentage_formula(df, "Delivered %", ["Delivered", "Total Delivered"], ["Sent", "Total Sent"])
+    _fill_percentage_formula(df, "Read Rate", ["Total Read", "Viewed"], ["Total Delivered", "Delivered", "Total Sent", "Sent"])
+    _fill_percentage_formula(df, "Viewed %", ["Viewed", "Total Viewed"], ["Delivered", "Total Delivered", "Sent", "Total Sent"])
+    _fill_percentage_formula(df, "Open rate (%)", ["Unique opens", "Total Open"], ["Total Delivered", "Total Sent"])
+    _fill_percentage_formula(df, "CTR (%)", ["Total clicks", "Clicked", "Clicks"], ["Total Delivered", "Total Sent", "Impression"])
+    _fill_percentage_formula(df, "Click to Open Rate", ["Total Clicks", "Unique Clicks"], ["Total Read", "Total Open", "Viewed"])
+    return df
 
 
 def _sort_cleaned_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -109,35 +204,7 @@ def _sort_cleaned_data(df: pd.DataFrame) -> pd.DataFrame:
     if "_datetime_sort" in df.columns:
         df.drop(columns=["_datetime_sort"], inplace=True)
 
-    percentage_cols = [
-        "Delivery %",
-        "Delivered %",
-        "Impression %",
-        "Viewed %",
-        "View Rate %",
-        "Clicked%",
-        "Click Rate %",
-        "Unique Clicked%",
-        "Conversion Rate %",
-        "Click Through Conversion %",
-        "Influenced Conversion %",
-        "Total Open%",
-        "Unique Open %",
-        "Total Clicked%",
-        "Unique Clicked%",
-        "CTR %",
-        "CTOR %",
-        "Unsubscribed %",
-        "Error %",
-        "CTR",
-        "Read Rate %",
-    ]
-
-    for col in percentage_cols:
-        if col in df.columns and df[col].dtype != "object":
-            df[col] = df[col].apply(lambda x: f"{x:.2f}%" if pd.notna(x) else "")
-
-    return df
+    return _format_percentage_columns(df)
 
 
 REPORT_COLUMN_ALIASES = {
@@ -152,24 +219,33 @@ REPORT_COLUMN_ALIASES = {
     "CTR": ["CTR", "CTR %", "Clicked%", "Unique Clicked%"],
     "Run Date": ["Date"],
     "Start Time": ["Time"],
-    "Total Sent(users)": ["Total Sent"],
+    "Total Sent(users)": ["Total Sent", "Sent"],
     "Total Delivered(users)": ["Total Delivered", "Delivered"],
     "Total Viewed(events)": ["Total Opens"],
-    "Total Viewed(users)": ["Total Viewed", "Unique Opens", "Impression"],
+    "Total Viewed(users)": ["Total Viewed", "Unique Opens", "Impression", "Viewed"],
     "Total Clicked(events)": ["Total Clicks"],
     "Total Clicked(users)": ["Clicked", "Unique Clicks", "Total Clicks"],
     "Click through conversions": ["Click Through Conversion", "Click through conversions"],
     "Click through conversion revenue": ["Click through Revenue", "Click through conversion revenue"],
+    "Click Through Conversion": ["Click Through Conversion", "Click through conversion", "Click through conversions"],
+    "Click through Revenue": ["Click through Revenue", "Click through conversion revenue"],
+    "Headline": ["Headline", "Title"],
+    "Body": ["Body", "Message"],
+    "Subject": ["Subject", "Title"],
+    "Preheader": ["Preheader", "Message"],
+    "Impression": ["Impression", "Viewed", "Total Viewed"],
+    "Impression %": ["Impression %", "Viewed %"],
     "Influenced Conversions": ["Influenced Conversion", "Influenced Conversions"],
+    "Influenced Conversion": ["Influenced Conversion", "Influenced Conversions"],
     "estimated reach": ["Estimated Reach"],
     "Campaign Name": ["Campaign Name"],
     "Channel": ["Channel"],
-    "Total Sent": ["Total Sent"],
+    "Total Sent": ["Total Sent", "Sent"],
     "Total Delivered": ["Total Delivered", "Delivered"],
     "Delivered": ["Delivered", "Total Delivered"],
     "Total Opens": ["Total Opens", "Unique Opens", "Total Viewed", "Impression"],
     "Total Impressions": ["Impression", "Total Viewed", "Unique Opens"],
-    "Total Viewed": ["Total Viewed", "Unique Opens", "Impression"],
+    "Total Viewed": ["Total Viewed", "Unique Opens", "Impression", "Viewed"],
     "Total Read": ["Total Viewed", "Unique Opens"],
     "Total Clicks": ["Clicked", "Unique Clicks", "Total Clicks"],
     "Total Clicked": ["Clicked", "Unique Clicks", "Total Clicks"],
@@ -178,9 +254,18 @@ REPORT_COLUMN_ALIASES = {
     "Delivery Rate (%)": ["Delivery %", "Delivered %"],
     "View Rate (%)": ["Viewed %", "Unique Open %", "Impression %"],
     "Read Rate (%)": ["Viewed %", "Unique Open %"],
-    "Click Rate (%)": ["Clicked%", "Unique Clicked%"],
+    "Click Rate (%)": ["Clicked%", "Clicked %", "Unique Clicked%"],
     "Conversion Rate (%)": ["Click Through Conversion %", "Influenced Conversion %"],
     "CTR (%)": ["CTR", "CTR %", "Unique Clicked%"],
+    "Label": ["Label", "Labels"],
+    "Labels": ["Labels", "Label"],
+    "Segment": ["Segment", "Segments"],
+    "Segments": ["Segments", "Segment"],
+    "Clicked%": ["Clicked%", "Clicked %"],
+    "Clicked %": ["Clicked %", "Clicked%"],
+    "Delivery %": ["Delivery %", "Delivered %"],
+    "Cost": ["Cost"],
+    "ROAS": ["ROAS"],
 }
 
 REPORTING_AGENT_COLUMNS = [
@@ -277,7 +362,7 @@ def _add_reporting_columns(df: pd.DataFrame) -> pd.DataFrame:
     df["Title"] = _coalesced_series(df, "Title", "Subject", "Headline")
     df["Message"] = _coalesced_series(df, "Message", "Body", "Preheader")
     df["Clicks"] = _coalesced_series(df, "Clicks", "Clicked", "Unique Clicks", "Total Clicks", "Total Clicked")
-    df["Delivered"] = _coalesced_series(df, "Delivered", "Total Delivered", "Impression")
+    df["Delivered"] = _coalesced_series(df, "Delivered", "Total Delivered", "Total Delivered(users)")
 
     ctr = _coalesced_series(df, "CTR (%)", "CTR", "CTR %", "Clicked%", "Unique Clicked%")
     if ctr.astype(str).str.strip().isin(["", "nan", "NaT", "<NA>"]).all():
@@ -371,10 +456,15 @@ async def detect_channels(payload: dict[str, Any]) -> dict[str, Any]:
 
     df = _load_csv(file_id)
     platform_key = _normalize_platform(platform)
-    if platform_key in {"clevertap", "clever tap"}:
-        channels = detect_cleanable_channels(df)
+    if _is_clevertap(platform_key):
+        channels = detect_clevertap_cleanable_channels(df)
         ignored_channels = [
-            channel for channel in detect_channels_only(df) if channel not in channels
+            channel for channel in detect_clevertap_channels_only(df) if channel not in channels
+        ]
+    elif _is_moengage(platform_key):
+        channels = detect_moengage_cleanable_channels(df)
+        ignored_channels = [
+            channel for channel in detect_moengage_channels_only(df) if channel not in channels
         ]
     else:
         channels = []
@@ -394,20 +484,28 @@ async def clean_data(payload: dict[str, Any]) -> dict[str, Any]:
     if not template_name:
         raise HTTPException(status_code=400, detail="Select a report template before cleaning")
     platform_key = _normalize_platform(platform)
-    if platform_key not in {"clevertap", "clever tap"}:
-        raise HTTPException(status_code=400, detail="Only CleverTap is supported for now")
 
     df = _load_csv(file_id)
-    cleaned = clean_clevertap_mixed(df, selected_channels=selected_channels)
+    if _is_clevertap(platform_key):
+        cleaned = clean_clevertap_mixed(df, selected_channels=selected_channels)
+        empty_detail = "No cleanable rows found. Select Email, Push Notification, RCS, Sms, or WhatsApp data."
+    elif _is_moengage(platform_key):
+        cleaned = clean_moengage_mixed(df, selected_channels=selected_channels)
+        empty_detail = "No cleanable rows found. Select Email, Push, RCS, SMS, or WhatsApp data."
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported platform")
+
     if cleaned.empty:
         raise HTTPException(
             status_code=400,
-            detail="No cleanable rows found. Select Email, Push Notification, Sms, or WhatsApp data.",
+            detail=empty_detail,
         )
     cleaned = _add_reporting_columns(cleaned)
     cleaned = _sort_cleaned_data(cleaned)
     _save_cleaned(file_id, cleaned)
-    report_df = _template_report(cleaned, template_name)
+    report_df = _format_percentage_columns(
+        _fill_common_percentage_formulas(_template_report(cleaned, template_name))
+    )
 
     preview = _preview_payload(report_df)
     return {
@@ -423,7 +521,12 @@ async def list_templates(platform: str | None = None) -> dict[str, Any]:
     templates = load_templates()
     if platform:
         platform_key = _normalize_platform(platform)
-        prefix = "CleverTap " if platform_key in {"clevertap", "clever tap"} else "MoEngage "
+        if _is_clevertap(platform_key):
+            prefix = "CleverTap "
+        elif _is_moengage(platform_key):
+            prefix = "MoEngage "
+        else:
+            return {"templates": {}}
         filtered = {k: v for k, v in templates.items() if k.startswith(prefix)}
         return {"templates": filtered}
     return {"templates": templates}
@@ -460,7 +563,9 @@ async def generate_report(payload: dict[str, Any]) -> StreamingResponse:
 
     df = _load_cleaned(file_id)
     df = _add_reporting_columns(df)
-    report_df = _template_report(df, template_name)
+    report_df = _format_percentage_columns(
+        _fill_common_percentage_formulas(_template_report(df, template_name))
+    )
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     if export_format == "csv":

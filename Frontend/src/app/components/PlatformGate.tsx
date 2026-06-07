@@ -17,8 +17,8 @@ const platforms: Array<{
   },
   {
     name: 'Moengage',
-    description: 'Prepare MoEngage reports with the same dashboard workflow as templates expand.',
-    points: ['Template-ready workflow', 'Clean export surface', 'Consistent report controls'],
+    description: 'Clean MoEngage exports, detect channels, preview metrics, and build professional reports.',
+    points: ['Email, Push, SMS, WhatsApp, RCS', 'Mixed campaign CSV support', 'CSV and Excel exports'],
   },
 ];
 
